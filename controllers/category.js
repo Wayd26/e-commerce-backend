@@ -1,54 +1,89 @@
 const category = require('../models/category');
 const Category = require('../models/category');
+const slugify = require('slugify')
+const Product = require('../models/product');
 
 
-exports.createOneCategory = (req, res, next) => {
-    const category = new Category({
-        name: req.body.name,
-        slug: req.body.slug
-    })
-    category.save().then(
-        () => res.status(201).send(`Category ${category.name} created successfully`)
-    ).catch(
-        error => res.status(401).json({ error: error })
-    )
+
+exports.createOneCategory = async (req, res, next) => {
+    try {
+        const { name } = req.body;
+        if (!name.trim()) {
+          return res.json({ error: "Name is required" });
+        }
+        const existingCategory = await Category.findOne({ name });
+        if (existingCategory) {
+          return res.json({ error: "Already exists" });
+        }
+    
+        const category = await new Category({ name, slug: slugify(name) }).save();
+        res.json(category);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json(err);
+      }
 }
 
-exports.updateOneCategory = (req, res, next) => {
-    const category = new Category({
-        _id: req.body._id,
-        name: req.body.name,
-        slug: req.body.slug
-    })
-
-    Category.updateOne({ _id: req.body._id }, category).then(
-        category => res.status(201).json({ message: "Update done successfully" })
-    ).catch(
-        error => res.status(400).json({ error: error })
-    )
+exports.updateOneCategory = async (req, res, next) => {
+    try {
+        const { name } = req.body;
+        const { id } = req.params;
+        const category = await Category.findByIdAndUpdate(
+          id,
+          {
+            name,
+            slug: slugify(name),
+          },
+          { new: true }
+        );
+        res.json(category);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json(err.message);
+      }
 }
 
-exports.getOneCategory = (req, res, next) => {
-    Category.findOne({ slug: req.params.slug }).then(
-        category => res.status(200).json(category)
-    ).catch(
-        error => res.status(400).json({ error: error })
-    )
+exports.getOneCategory = async (req, res, next) => {
+    try {
+        const category = await Category.findOne({ slug: req.params.slug });
+        res.json(category);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json(err.message);
+      }
 }
 
-exports.deleteOneCategory = (req, res, next) => {
-    Category.deleteOne({ _id: req.body._id }).then(
-        (category) => res.status(200).send(`Category ${category.name} deleted successfully`)
-    ).catch(
-        error => res.status(400).json({ error: error })
-    )
+exports.deleteOneCategory =async (req, res, next) => {
+    try {
+        const removed = await Category.findByIdAndDelete(req.params.id);
+        res.json(removed);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json(err.message);
+      }
 
 }
 
-exports.getAllCaterories = (req, res, next) => {
-    Category.find().then(
-        categories => res.status(200).json(categories)
-    ).catch(
-        error => res.status(400).json({ error: error })
-    )
+exports.getAllCaterories = async (req, res, next) => {
+    try {
+        const all = await Category.find({});
+        res.json(all);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json(err.message);
+      }
 }
+
+exports.productsByCategory = async (req, res) => {
+    try {
+      const category = await Category.findOne({ slug: req.params.slug });
+      const products = await Product.find({ category }).populate("category");
+  
+      res.json({
+        category,
+        products,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };

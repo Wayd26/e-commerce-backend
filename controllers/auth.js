@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const Order = require('../models/order')
 
 const jwt = require('jsonwebtoken')
 
@@ -73,9 +74,9 @@ exports.login = async (req, res, next) => {
         }
 
         const match = await comparePassword(password, user.password);
-
+        console.log("match ", match)
         if (!match) {
-            return res.jsont({ error: "Wrong Password" })
+            return res.json({ error: "Wrong Password" })
         }
 
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
@@ -94,3 +95,56 @@ exports.login = async (req, res, next) => {
 exports.secret = async (req, res, next) => {
     return res.json({ currentUser: req.user })
 }
+
+exports.updateProfile = async (req, res) => {
+    try {
+      const { name, password, address } = req.body;
+      const user = await User.findById(req.user._id);
+      // check password length
+      if (password && password.length < 6) {
+        return res.json({
+          error: "Password is required and should be min 6 characters long",
+        });
+      }
+      // hash the password
+      const hashedPassword = password ? await hashPassword(password) : undefined;
+  
+      const updated = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+          name: name || user.name,
+          password: hashedPassword || user.password,
+          address: address || user.address,
+        },
+        { new: true }
+      );
+  
+      updated.password = undefined;
+      res.json(updated);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  exports.getOrders = async (req, res) => {
+    try {
+      const orders = await Order.find({ buyer: req.user._id })
+        .populate("products", "-photo")
+        .populate("buyer", "name");
+      res.json(orders);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
+  exports.allOrders = async (req, res) => {
+    try {
+      const orders = await Order.find({})
+        .populate("products", "-photo")
+        .populate("buyer", "name")
+        .sort({ createdAt: "-1" });
+      res.json(orders);
+    } catch (err) {
+      console.log(err);
+    }
+  };

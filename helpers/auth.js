@@ -13,5 +13,7 @@ exports.hashPassword = (password) => {
 }
 
 exports.comparePassword = (password, hashed) => {
+    console.log("Password ", password)
+    console.log("Hashed ", hashed)
     return bcrypt.compare(password, hashed)
 }
