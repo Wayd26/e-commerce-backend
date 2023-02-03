@@ -50,10 +50,7 @@ const whitelist = [
   };
   app.use(setContext);
 // CORS
-app.use(express.json())
-app.use('/', (req, res, next) => {
-    return res.json({data: 'Connected'})
-})
+
 app.use('/api', authRoutes)
 app.use('/api', categoryRoutes)
 app.use('/api', productRoutes)
