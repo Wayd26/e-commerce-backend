@@ -4,6 +4,9 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors")
 const morgan = require("morgan")
+const createError = require('http-errors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const authRoutes = require("../routes/auth")
 const categoryRoutes = require("../routes/category")
@@ -19,6 +22,7 @@ mongoose.connect(process.env.MONGO_URI).then(
 ).catch(error => console.log("Failed to connect to Database ", error))
 
 app.use(cors())
+
 app.use(morgan('dev'));
 
 // CORS
