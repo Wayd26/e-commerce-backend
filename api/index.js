@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 const cors = require("cors")
 const morgan = require("morgan")
 
-const authRoutes = require("./routes/auth")
-const categoryRoutes = require("./routes/category")
-const productRoutes = require("./routes/product")
+const authRoutes = require("../routes/auth")
+const categoryRoutes = require("../routes/category")
+const productRoutes = require("../routes/product")
 
 
 dotenv.config();
@@ -31,3 +31,4 @@ app.listen(PORT, () => {
 
 })
 
+ 
