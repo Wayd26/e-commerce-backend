@@ -30,7 +30,7 @@ const corsOptions = {
   optionsSuccessStatus: 200 
 }
 
-app.use(cors(corsOptions))
+app.use(cors())
 // CORS
 // const whitelist = ['*'];
 
@@ -65,6 +65,15 @@ app.use(cors(corsOptions))
 // app.options('*', cors())
 
 // app.options('*', cors()) 
+
+app.use((req, res, next) => {
+     res.header('Access-Control-Allow-Origin', '*');
+     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+     res.header('Access-Control-Allow-Headers', 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');
+     res.header('Access-Control-Allow-Credentials', true);
+   
+    next();
+ });
 
 app.use('/api', authRoutes)
 app.use('/api', categoryRoutes)
