@@ -21,14 +21,17 @@ mongoose.connect(process.env.MONGO_URI).then(
     () => console.log("Database Connected Successfully")
 ).catch(error => console.log("Failed to connect to Database ", error))
 
-app.use(cors())
+// app.use(cors())
 
 app.use(morgan('dev'));
 
 // CORS
-const whitelist = [
-    '*'
-  ];
+const whitelist = ['*'];
+
+app.use(cors({
+  origin: '*'
+}));
+
   
   app.use((req, res, next) => {
     const origin = req.get('referer');
