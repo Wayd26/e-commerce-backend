@@ -25,6 +25,8 @@ mongoose.connect(process.env.MONGO_URI).then(
 
 app.use(morgan('dev'));
 
+app.use(cors())
+
 // CORS
 // const whitelist = ['*'];
 app.use(express.json())
@@ -34,20 +36,20 @@ app.use(express.json())
 // }));
 
   
-  app.use((req, res, next) => {
+  // app.use((req, res, next) => {
     // const origin = req.get('referer');
     // const isWhitelisted = whitelist.find((w) => origin && origin.includes(w));
     // if (isWhitelisted) {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');
-      res.header('Access-Control-Allow-Credentials', true);
+      // res.header('Access-Control-Allow-Origin', '*');
+      // res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+      // res.header('Access-Control-Allow-Headers', 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');
+      // res.header('Access-Control-Allow-Credentials', true);
     // }
     // Pass to next layer of middleware
     // if (req.method === 'OPTIONS') res.sendStatus(200);
     // else 
-    next();
-  });
+    // next();
+  // });
   
   // const setContext = (req, res, next) => {
   //   if (!req.context) req.context = {};
