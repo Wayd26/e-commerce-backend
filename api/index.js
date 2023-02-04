@@ -37,10 +37,10 @@ app.use(cors({
     // const origin = req.get('referer');
     // const isWhitelisted = whitelist.find((w) => origin && origin.includes(w));
     // if (isWhitelisted) {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-      res.setHeader('Access-Control-Allow-Headers', '*');
-      res.setHeader('Access-Control-Allow-Credentials', false);
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');
+      res.header('Access-Control-Allow-Credentials', true);
     // }
     // Pass to next layer of middleware
     // if (req.method === 'OPTIONS') res.sendStatus(200);
