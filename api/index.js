@@ -26,7 +26,7 @@ mongoose.connect(process.env.MONGO_URI).then(
 app.use(morgan('dev'));
 
 // CORS
-const whitelist = ['*'];
+// const whitelist = ['*'];
 
 app.use(cors({
   origin: '*'
@@ -43,8 +43,9 @@ app.use(cors({
       res.setHeader('Access-Control-Allow-Credentials', true);
     // }
     // Pass to next layer of middleware
-    if (req.method === 'OPTIONS') res.sendStatus(200);
-    else next();
+    // if (req.method === 'OPTIONS') res.sendStatus(200);
+    // else 
+    next();
   });
   
   // const setContext = (req, res, next) => {
@@ -55,6 +56,8 @@ app.use(cors({
 
 // CORS
 app.use(express.json())
+
+// app.options('*', cors())
 
 app.use('/api', authRoutes)
 app.use('/api', categoryRoutes)
