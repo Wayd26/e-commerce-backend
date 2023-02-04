@@ -25,6 +25,8 @@ mongoose.connect(process.env.MONGO_URI).then(
 //   credentials: true
 // }))
 
+app.use(cors())
+
 app.use(morgan('dev'));
 app.use(express.json())
 
