@@ -18,15 +18,20 @@ mongoose.connect(process.env.MONGO_URI).then(
     () => console.log("Database Connected Successfully")
 ).catch(error => console.log("Failed to connect to Database ", error))
 
-app.use(cors())
+app.use(cors({
+  origin: '*', // use your actual domain name (or localhost), using * is not recommended
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+  credentials: true
+}))
+
 app.use(morgan('dev'));
 app.use(express.json())
+
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', true)
   res.setHeader('Access-Control-Allow-Origin', '*')
-  // another common pattern
-  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
   res.setHeader(
     'Access-Control-Allow-Headers',
