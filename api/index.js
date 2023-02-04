@@ -27,10 +27,11 @@ app.use(morgan('dev'));
 
 // CORS
 // const whitelist = ['*'];
+app.use(express.json())
 
-app.use(cors({
-  origin: '*'
-}));
+// app.use(cors({
+//   origin: '*'
+// }));
 
   
   app.use((req, res, next) => {
@@ -55,7 +56,6 @@ app.use(cors({
   // app.use(setContext);
 
 // CORS
-app.use(express.json())
 
 // app.options('*', cors())
 
