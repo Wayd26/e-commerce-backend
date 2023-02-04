@@ -4,9 +4,6 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors")
 const morgan = require("morgan")
-const createError = require('http-errors');
-const path = require('path');
-const cookieParser = require('cookie-parser');
 
 const authRoutes = require("../routes/auth")
 const categoryRoutes = require("../routes/category")
@@ -21,59 +18,9 @@ mongoose.connect(process.env.MONGO_URI).then(
     () => console.log("Database Connected Successfully")
 ).catch(error => console.log("Failed to connect to Database ", error))
 
+app.use(cors())
 app.use(morgan('dev'));
 app.use(express.json())
-
-
-const corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 
-}
-
-app.use(cors())
-// CORS
-// const whitelist = ['*'];
-
-// app.use(cors({
-//   origin: '*'
-// }));
-
-  
-  // app.use((req, res, next) => {
-    // const origin = req.get('referer');
-    // const isWhitelisted = whitelist.find((w) => origin && origin.includes(w));
-    // if (isWhitelisted) {
-      // res.header('Access-Control-Allow-Origin', '*');
-      // res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-      // res.header('Access-Control-Allow-Headers', 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization');
-      // res.header('Access-Control-Allow-Credentials', true);
-    // }
-    // Pass to next layer of middleware
-    // if (req.method === 'OPTIONS') res.sendStatus(200);
-    // else 
-    // next();
-  // });
-  
-  // const setContext = (req, res, next) => {
-  //   if (!req.context) req.context = {};
-  //   next();
-  // };
-  // app.use(setContext);
-
-// CORS
-
-// app.options('*', cors())
-
-// app.options('*', cors()) 
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-   
-    next();
- });
 
 app.use('/api', authRoutes)
 app.use('/api', categoryRoutes)
