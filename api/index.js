@@ -18,12 +18,12 @@ mongoose.connect(process.env.MONGO_URI).then(
     () => console.log("Database Connected Successfully")
 ).catch(error => console.log("Failed to connect to Database ", error))
 
-app.use(cors({
-  origin: '*', // use your actual domain name (or localhost), using * is not recommended
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
-  credentials: true
-}))
+// app.use(cors({
+//   origin: '*', // use your actual domain name (or localhost), using * is not recommended
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+//   allowedHeaders: ['content-type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+//   credentials: true
+// }))
 
 app.use(morgan('dev'));
 app.use(express.json())
