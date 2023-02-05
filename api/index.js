@@ -23,13 +23,10 @@ app.use(morgan('dev'));
 app.use(express.json())
 
 
-app.use(cors({
-  'allowedHeaders': ['sessionId', 'Content-Type'],
-  'exposedHeaders': ['sessionId'],
-  'origin': '*',
-  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  'preflightContinue': false
-}));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+  return next()
+});
 
 app.use('/api', authRoutes)
 app.use('/api', categoryRoutes)
