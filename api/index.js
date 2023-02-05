@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI).then(
 app.use(morgan('dev'));
 app.use(express.json())
 app.use(cors())
+app.options('*', cors())
 app.use('/api', authRoutes)
 app.use('/api', categoryRoutes)
 app.use('/api', productRoutes)
