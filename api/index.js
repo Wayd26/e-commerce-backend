@@ -23,11 +23,13 @@ app.use(morgan('dev'));
 app.use(express.json())
 
 
-// app.use(cors());
+app.use(cors({
+  origin: ['https://open-shop.vercel.app']
+}));
 
-app.use('/api', cors(), authRoutes)
-app.use('/api', cors(), categoryRoutes)
-app.use('/api', cors(), productRoutes)
+app.use('/api', authRoutes)
+app.use('/api', categoryRoutes)
+app.use('/api', productRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}...`)
