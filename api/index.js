@@ -24,7 +24,7 @@ app.use(express.json())
 
 
 app.use(cors({
-  origin: ['https://open-shop.vercel.app']
+  origin: false 
 }));
 
 app.use('/api', authRoutes)
