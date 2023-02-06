@@ -4,7 +4,7 @@
   "description": "E-Commerce API with NodeJS and MongoDB",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon api/index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [
     "ecommerce",
