@@ -22,9 +22,9 @@ app.use(morgan('dev'));
 app.use(express.json())
 app.use(cors())
 
- app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
- })
+//  app.use((req, res, next) => {
+  // res.setHeader("Access-Control-Allow-Origin", "*");
+//  })
 app.use('/api', authRoutes)
 app.use('/api', categoryRoutes)
 app.use('/api', productRoutes)
